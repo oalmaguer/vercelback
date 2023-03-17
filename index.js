@@ -19,6 +19,8 @@ app.use(cors({
   app.use(express.json());
 var distDir = __dirname + "/dist/angular-test";
 
+// app.use(express.static(distDir));
+
 const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);
 
@@ -45,7 +47,7 @@ app.post('/songs', async(req, res) => {
         Do not explain anything else.
         `}],
     }
-    axios.post('/https://api.openai.com/v1/chat/completions', data, {
+    axios.post('https://api.openai.com/v1/chat/completions', data, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.API_KEY}`,
@@ -60,37 +62,33 @@ app.post('/songs', async(req, res) => {
 })
 
 app.post('/spotify_token', async(req, res) => {
-  console.log("smn");
-  console.log(req.body.grant_type)
-  let data = {
-    grant_type: req.body.grant_type
-  }
-    var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
-    var secreto = process.env.SPOTIFY_SECRET_API_KEY;
-
-    const headers = {
-      Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    axios
-      .post('/https://accounts.spotify.com/api/token', data, {
-        headers: headers,
-      })
-      .then((elem) => {
-        return elem.data.access_token;
-      });
-
+    console.log("smn");
+    console.log("REQ BODY: ", req.body.grant_type)
+    let params = {
+      grant_type: 'client_credentials'
+    }
+      var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
+      var secreto = process.env.SPOTIFY_SECRET_API_KEY;
+  
+      const headers = {
+        Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+  
+      axios
+        .post('https://accounts.spotify.com/api/token', params, {
+          headers: headers,
+        })
+        .then((elem) => {
+          return elem.data.access_token;
+        });
+  
 })
 
-
-
-// app.use(express.static(distDir));
-console.log(distDir);
 app.get("/", (req, res) => {
     res.send("Pagina inicio");
 })
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
+  console.log(`App app listening on port ${PORT}`)
 })

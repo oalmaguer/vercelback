@@ -60,9 +60,10 @@ app.post('/songs', async(req, res) => {
 })
 
 app.post('spotify_token', async(req, res) => {
-    let params = {
-        grant_type: 'client_credentials',
-      };
+
+
+    console.log(req.body.params)
+
       var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
       var secreto = process.env.SPOTIFY_SECRET_API_KEY;
   

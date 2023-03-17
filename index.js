@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
   app.use(express.json());
-var distDir = __dirname + "/dist/angular-test";
+// var distDir = __dirname + "/dist/angular-test";
 
 const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);
@@ -45,7 +45,7 @@ app.post('/songs', async(req, res) => {
         Do not explain anything else.
         `}],
     }
-    axios.post('https://api.openai.com/v1/chat/completions', data, {
+    axios.post('/https://api.openai.com/v1/chat/completions', data, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.API_KEY}`,
@@ -74,7 +74,7 @@ app.post('/spotify_token', async(req, res) => {
     };
 
     axios
-      .post('https://accounts.spotify.com/api/token', data, {
+      .post('/https://accounts.spotify.com/api/token', data, {
         headers: headers,
       })
       .then((elem) => {

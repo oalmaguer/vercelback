@@ -60,27 +60,30 @@ app.post('/songs', async(req, res) => {
 })
 
 app.post('/spotify_token', async(req, res) => {
+  console.log("smn");
+  console.log(req.body.grant_type)
+  let data = {
+    grant_type: req.body.grant_type
+  }
+    var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
+    var secreto = process.env.SPOTIFY_SECRET_API_KEY;
 
+    const headers = {
+      Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
 
-    console.log(req.body.params)
+    axios
+      .post('https://accounts.spotify.com/api/token', data, {
+        headers: headers,
+      })
+      .then((elem) => {
+        return elem.data.access_token;
+      });
 
-      var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
-      var secreto = process.env.SPOTIFY_SECRET_API_KEY;
-  
-      const headers = {
-        Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
-        'Content-Type': 'application/x-www-form-urlencoded',
-      };
-  
-      axios
-        .post('https://accounts.spotify.com/api/token', params, {
-          headers: headers,
-        })
-        .then((elem) => {
-          return elem.data.access_token;
-        });
-  
 })
+
+
 
 // app.use(express.static(distDir));
 console.log(distDir);

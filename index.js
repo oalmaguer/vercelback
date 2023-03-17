@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
   app.use(express.json());
-// var distDir = __dirname + "/dist/angular-test";
+var distDir = __dirname + "/dist/angular-test";
 
 const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);

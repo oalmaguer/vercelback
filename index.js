@@ -59,7 +59,7 @@ app.post('/songs', async(req, res) => {
 
 })
 
-app.post('spotify_token', async(req, res) => {
+app.post('/spotify_token', async(req, res) => {
 
 
     console.log(req.body.params)

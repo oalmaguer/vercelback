@@ -81,7 +81,7 @@ app.post('spotify_token', async(req, res) => {
   
 })
 
-app.use(express.static(distDir));
+// app.use(express.static(distDir));
 console.log(distDir);
 app.get("/", (req, res) => {
     res.send("Pagina inicio");

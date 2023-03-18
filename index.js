@@ -29,7 +29,6 @@ app.get('/test', (req, res) => {
 })
 // const response = await openai.listEngines();
 app.post('/songs', async(req, res) => {
-    console.log("Body: ", req.body);
 
     let data = {
         "model": "gpt-3.5-turbo",
@@ -55,22 +54,17 @@ app.post('/songs', async(req, res) => {
         }
     })
     .then(elem => {
-        console.log(elem.data.choices[0]);
         res.send(elem.data.choices[0]);
-    })
-
+    }).catch(err => console.log("Error: ", error));
 })
 
 app.post('/spotify_token', (req, res) => {
-  console.log("REQ BODY: ", req.body.grant_type)
   let data;
   let params = {
     grant_type: 'client_credentials',
   }
     var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
     var secreto = process.env.SPOTIFY_SECRET_API_KEY;
-    console.log("Cliente: ", cliente)
-    console.log("Secreto: ", secreto)
     const headers = {
       Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -82,7 +76,6 @@ app.post('/spotify_token', (req, res) => {
       })
       .then((elem) => {
         data = elem.data.access_token;
-        console.log(data);
         res.send(JSON.stringify(data));
       })
     })

@@ -33,7 +33,7 @@ app.post('/songs', async(req, res) => {
     let data = {
         "model": "gpt-3.5-turbo",
         "messages": [{"role": "user", "content":
-        `Recommend me a list of songs if my favorite song is ${req.body.song} from ${req.body.artist}, do not include any explanations, also try to not add songs from the same artist. 
+        `Recommend me a list of 10 songs if my favorite song is ${req.body.song} from ${req.body.artist}, do not include any explanations, also try to not add songs from the same artist. 
         Only Return a JSON object with the songs in the following format:
         {"data": [
             {

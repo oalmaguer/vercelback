@@ -61,29 +61,32 @@ app.post('/songs', async(req, res) => {
 
 })
 
-app.post('/spotify_token', async(req, res) => {
-    console.log("smn");
-    console.log("REQ BODY: ", req.body.grant_type)
-    let params = {
-      grant_type: 'client_credentials'
-    }
-      var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
-      var secreto = process.env.SPOTIFY_SECRET_API_KEY;
-  
-      const headers = {
-        Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
-        'Content-Type': 'application/x-www-form-urlencoded',
-      };
-  
-      axios
-        .post('https://accounts.spotify.com/api/token', params, {
-          headers: headers,
-        })
-        .then((elem) => {
-          return elem.data.access_token;
-        });
-  
-})
+app.post('/spotify_token', (req, res) => {
+  console.log("REQ BODY: ", req.body.grant_type)
+  let data;
+  let params = {
+    grant_type: 'client_credentials',
+  }
+    var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
+    var secreto = process.env.SPOTIFY_SECRET_API_KEY;
+    console.log("Cliente: ", cliente)
+    console.log("Secreto: ", secreto)
+    const headers = {
+      Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    axios
+      .post('https://accounts.spotify.com/api/token', params, {
+        headers: headers,
+      })
+      .then((elem) => {
+        data = elem.data.access_token;
+        console.log(data);
+        res.send(JSON.stringify(data));
+      })
+    })
+
 
 app.get("/", (req, res) => {
     res.send("Pagina inicio");

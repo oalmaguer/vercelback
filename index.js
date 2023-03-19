@@ -55,7 +55,7 @@ app.post('/songs', async(req, res) => {
     })
     .then(elem => {
         res.send(elem.data.choices[0]);
-    }).catch(err => console.log("Error: ", error));
+    }).catch(err => res.send(err));
 })
 
 app.post('/spotify_token', (req, res) => {

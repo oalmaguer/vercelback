@@ -34,7 +34,7 @@ const openai = new OpenAIApi(configurationa);
 
 
 
-app.get('test', (req, res) => {
+app.get('/test', (req, res) => {
     res.send('Hello World');
 })
 // const response = await openai.listEngines();

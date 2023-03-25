@@ -12,9 +12,9 @@ const app = express()
 
 
 const cors = require('cors');
-app.use(cors({
-    origin: '*'
-}));
+
+
+app.use(cors());
 
   app.use(express.json());
 var distDir = __dirname + "/dist/angular-test";
@@ -32,7 +32,6 @@ const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);
 
 app.get('/test', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
     res.send('Hello World');
 })
 // const response = await openai.listEngines();

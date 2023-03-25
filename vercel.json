@@ -8,8 +8,7 @@
   ],
   "rewrites": [
     {
-      "src": "/(.*)"
-
+      "source": "/(.*)", "destination": "./index.js"
     },
     {
       "methods": ["POST"],

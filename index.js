@@ -31,6 +31,12 @@ app.use(function (req, res, next) {
 const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);
 
+
+app.get("/", (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+    res.send("Pagina inicio");
+})
+
 app.get('/test', (req, res) => {
     res.send('Hello World');
 })
@@ -91,10 +97,6 @@ app.post('/spotify_token', (req, res) => {
     })
 
 
-app.get("/", (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-    res.send("Pagina inicio");
-})
 
 app.listen(PORT, () => {
   console.log(`App app listening on port ${PORT}`)

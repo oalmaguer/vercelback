@@ -32,11 +32,12 @@ const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);
 
 app.get('/test', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
     res.send('Hello World');
 })
 // const response = await openai.listEngines();
 app.post('/songs', async(req, res) => {
-
+  res.header('Access-Control-Allow-Origin', '*');
     let data = {
         "model": "gpt-3.5-turbo",
         "messages": [{"role": "user", "content":
@@ -66,6 +67,8 @@ app.post('/songs', async(req, res) => {
 })
 
 app.post('/spotify_token', (req, res) => {
+  
+  res.header('Access-Control-Allow-Origin', '*');
   let data;
   let params = {
     grant_type: 'client_credentials',
@@ -90,6 +93,7 @@ app.post('/spotify_token', (req, res) => {
 
 
 app.get("/", (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
     res.send("Pagina inicio");
 })
 

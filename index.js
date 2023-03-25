@@ -13,12 +13,17 @@ const app = express()
 
 const cors = require('cors');
 
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
-app.use(cors());
 
-  app.use(express.json());
-var distDir = __dirname + "/dist/angular-test";
-
+app.use(express.json());
+app.use(cors(corsOptions));
+  
+  var distDir = __dirname + "/dist/angular-test";
 app.use(function (req, res, next) {
   //Enabling CORS
   res.header("Access-Control-Allow-Origin", "*");

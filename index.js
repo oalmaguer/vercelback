@@ -19,6 +19,13 @@ app.use(cors({
   app.use(express.json());
 var distDir = __dirname + "/dist/angular-test";
 
+app.use(function (req, res, next) {
+  //Enabling CORS
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+    next();
+  });
 // app.use(express.static(distDir));
 
 const PORT = process.env.PORT || 3000;
@@ -50,7 +57,7 @@ app.post('/songs', async(req, res) => {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.API_KEY}`,
-           
+            'Access-Control-Allow-Origin': '*',
         }
     })
     .then(elem => {
@@ -68,6 +75,7 @@ app.post('/spotify_token', (req, res) => {
     const headers = {
       Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
     };
 
     axios
@@ -88,3 +96,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`App app listening on port ${PORT}`)
 })
+
+//how can I enable CORS in this code

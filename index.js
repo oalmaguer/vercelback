@@ -55,7 +55,6 @@ app.get('/test', (req, res) => {
 })
 // const response = await openai.listEngines();
 app.post('/songs', async(req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
     let data = {
         "model": "gpt-3.5-turbo",
         "messages": [{"role": "user", "content":
@@ -76,7 +75,6 @@ app.post('/songs', async(req, res) => {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.API_KEY}`,
-            'Access-Control-Allow-Origin': '*',
         }
     })
     .then(elem => {
@@ -86,7 +84,6 @@ app.post('/songs', async(req, res) => {
 
 app.post('/spotify_token', (req, res) => {
   
-  res.header('Access-Control-Allow-Origin', '*');
   let data;
   let params = {
     grant_type: 'client_credentials',

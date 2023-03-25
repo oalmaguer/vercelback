@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
     res.send("Pagina inicio");
 })
 
-app.get('/test', (req, res) => {
+app.get('test', (req, res) => {
     res.send('Hello World');
 })
 // const response = await openai.listEngines();

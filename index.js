@@ -15,7 +15,7 @@ const cors = require('cors');
 
 const corsOptions = {
   origin: '*',
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
@@ -37,7 +37,7 @@ app.options("*",function(req,res,next){
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
     );
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     next();
   });
 

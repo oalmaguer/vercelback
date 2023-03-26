@@ -19,6 +19,9 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
+const querystring = require('querystring');
+
+
 
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -46,7 +49,7 @@ app.options("*",function(req,res,next){
 
 const PORT = process.env.PORT || 3000;
 const openai = new OpenAIApi(configurationa);
-
+const giphyUrl = 'https://api.giphy.com/v1/gifs/search';
 
 
 
@@ -82,18 +85,34 @@ app.post('/songs', async(req, res) => {
     }).catch(err => res.send(err));
 })
 
-app.post('/spotify_token', (req, res) => {
-  
+app.get('/auth_window', (req, res) => {
+  var client_id = process.env.SPOTIFY_CLIENT_API_KEY;
+var redirect_uri = 'http://localhost:3000/callback';
+
+  // var state = generateRandomString(16);
+  var scope = 'user-read-private user-read-email';
+
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+    }));
+});
+
+app.get('/spotify_token', (req, res) => {
   let data;
   let params = {
     grant_type: 'client_credentials',
   }
-    var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
-    var secreto = process.env.SPOTIFY_SECRET_API_KEY;
+
+  var cliente = process.env.SPOTIFY_CLIENT_API_KEY;
+  var secreto = process.env.SPOTIFY_SECRET_API_KEY;
+
     const headers = {
       Authorization: 'Basic ' + btoa(cliente + ':' + secreto),
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Access-Control-Allow-Origin': '*',
     };
 
     axios
@@ -103,9 +122,20 @@ app.post('/spotify_token', (req, res) => {
       .then((elem) => {
         data = elem.data.access_token;
         res.send(JSON.stringify(data));
-      })
+      }).catch(err => res.send(err));
     })
 
+
+    app.get("/gif", (req, res) => {
+      console.log("llega a gif");
+      let gif;
+      axios.get(`${giphyUrl}?api_key=${process.env.GIPHY_API_KEY}&q=robots&limit=15`)
+      .then(elem => {
+        gif = elem.data
+          res.send(gif);
+        })
+        
+    })
 
     app.get("/", (req, res) => {
         res.send("Pagina inicio");

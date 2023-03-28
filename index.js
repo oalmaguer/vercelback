@@ -61,14 +61,14 @@ const PORT = process.env.PORT || 3000;
 const giphyUrl = 'https://api.giphy.com/v1/gifs/search';
 
 //LANGCHAIN STARTS ////////////////////////////////////////////////////////////////////
-
-const model = new OpenAI({openAIApiKey: process.env.OPENAI_API_KEY, temperature: 0.5});
+const model = new OpenAI({openAIApiKey: process.env.OPENAI_API_KEY, temperature: 0.9, maxTokens: 1024});
 // const tools = [new SerpAPI()];
 
 app.post('/getSongs', async(req, res) => {
   const parser = StructuredOutputParser.fromNamesAndDescriptions({
       song: "name of the song",
       artist: "the artist of the song",
+      youtubeLink: "the youtube link of the song",
     });
   
     const formatInstructions = parser.getFormatInstructions();

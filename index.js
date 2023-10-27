@@ -73,7 +73,7 @@ const giphyUrl = "https://api.giphy.com/v1/gifs/search";
 const model = new ChatOpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
   temperature: 0.8,
-  modelName: "gpt-4",
+  modelName: "gpt-3.5-turbo",
   verbose: true,
   maxRetries: 5,
   maxTokens: 1024,
@@ -101,7 +101,7 @@ app.post("/getSongs", async (req, res) => {
 
   const input = await prompt.format({
     // question: `Recommend me a list of 7 songs if my favorite song is ${req.body.song} by ${req.body.artist}, try to avoid songs from the same artist, return an array of objects`,
-    question: `My favorite song is ${req.body.song} by ${req.body.artist}, curate a list of tracks the user might like, try to avoid songs from the same artist, return an array of objects`,
+    question: `My favorite song is ${req.body.song} by ${req.body.artist}, curate a list of at least 7 tracks the user might like, try to avoid songs from the same artist, return an array of objects`,
 
     // question: `Given a user's music preferences and listening history, recommend a playlist of similar songs to ${req.body.song} or similar artists like ${req.body.artist} that they might enjoy. The output should include at least 5 recommendations, and the recommendations should be diverse in terms of genre and popularity. The recommendations should also take into account any specific preferences or restrictions provided by the user, such as excluding certain genres or artists. The recommendations should be based on both the user's explicit preferences (e.g., favorite genres or artists) and implicit preferences (e.g., songs they frequently listen to or skip).`,
   });

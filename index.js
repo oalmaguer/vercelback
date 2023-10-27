@@ -1,11 +1,11 @@
 // const axios = require('axios');
 import axios from "axios";
-import { OpenAI, PromptTemplate } from "langchain";
 import {
   StructuredOutputParser,
-  OutputFixingParser,
 } from "langchain/output_parsers";
-import { SerpAPI, Calculator } from "langchain/tools";
+import { ChatOpenAI } from "langchain/chat_models/openai";
+
+import { PromptTemplate } from "langchain/prompts";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -56,14 +56,33 @@ const PORT = process.env.PORT || 3000;
 const giphyUrl = "https://api.giphy.com/v1/gifs/search";
 
 //LANGCHAIN STARTS ////////////////////////////////////////////////////////////////////
-const model = new OpenAI({
+// const model = new OpenAI({
+//   openAIApiKey: process.env.OPENAI_API_KEY,
+//   temperature: 0.3,
+//   maxTokens: 1024,
+//   modelName: "gpt-3.5-turbo",
+//   maxRetries: 5,
+// });
+
+// const modelForFunctionCalling = new ChatOpenAI({
+//   modelName: "gpt-4",
+//   verbose: true,
+//   maxRetries: 5,
+//   maxTokens: 1024,
+// });
+const model = new ChatOpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
-  temperature: 0.3,
-  maxTokens: 1024,
-  modelName: "gpt-3.5-turbo",
+  temperature: 0.8,
+  modelName: "gpt-4",
+  verbose: true,
   maxRetries: 5,
+  maxTokens: 1024,
+  
 });
-// const tools = [new SerpAPI()];
+
+
+
+
 
 app.post("/getSongs", async (req, res) => {
   const parser = StructuredOutputParser.fromNamesAndDescriptions({
@@ -82,14 +101,16 @@ app.post("/getSongs", async (req, res) => {
 
   const input = await prompt.format({
     // question: `Recommend me a list of 7 songs if my favorite song is ${req.body.song} by ${req.body.artist}, try to avoid songs from the same artist, return an array of objects`,
-    question: `Recommend me a list of 7 songs if my favorite song is ${req.body.song} by ${req.body.artist}, try to avoid songs from the same artist, return an array of objects`,
+    question: `My favorite song is ${req.body.song} by ${req.body.artist}, curate a list of tracks the user might like, try to avoid songs from the same artist, return an array of objects`,
 
     // question: `Given a user's music preferences and listening history, recommend a playlist of similar songs to ${req.body.song} or similar artists like ${req.body.artist} that they might enjoy. The output should include at least 5 recommendations, and the recommendations should be diverse in terms of genre and popularity. The recommendations should also take into account any specific preferences or restrictions provided by the user, such as excluding certain genres or artists. The recommendations should be based on both the user's explicit preferences (e.g., favorite genres or artists) and implicit preferences (e.g., songs they frequently listen to or skip).`,
   });
-  console.log("NOT using gpt4 model!!");
-  const response = await model.call(input);
 
-  var newStr = response.replace(/`/g, "").replace(/json/g, "");
+  const message = await model.invoke(input);
+console.log(message);
+  // const response = await model.call(input);
+
+  var newStr = message.content.replace(/`/g, "").replace(/json/g, "");
   res.send(JSON.stringify(newStr));
 });
 

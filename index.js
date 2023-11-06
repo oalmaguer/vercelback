@@ -73,15 +73,12 @@ const giphyUrl = "https://api.giphy.com/v1/gifs/search";
 const model = new ChatOpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
   temperature: 0.8,
-  modelName: "gpt-3.5-turbo",
+  modelName: "gpt-4-1106-preview",
   verbose: true,
   maxRetries: 5,
   maxTokens: 1024,
-  
+  type: "json_object" ,
 });
-
-
-
 
 
 app.post("/getSongs", async (req, res) => {
